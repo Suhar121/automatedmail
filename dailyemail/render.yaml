@@ -1,0 +1,22 @@
+services:
+  # Web service for LinkedIn Poster
+  - type: web
+    name: linkedin-poster
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run frontend_schedular.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
+  # Worker service for Daily Scheduler
+  - type: worker
+    name: daily-scheduler
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python daily_scheduler.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
